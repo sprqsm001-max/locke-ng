@@ -1,0 +1,63 @@
+# ============================================
+# Locke-NG Static Site - Apache Configuration
+# cPanel Deployment
+# ============================================
+
+Options -Indexes
+
+# Force HTTPS
+RewriteEngine On
+RewriteCond %{HTTPS} off
+RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# Remove trailing slash (except root)
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)/$ /$1 [L,R=301]
+
+# Serve clean directory URLs
+# e.g. /contact-2/ → /contact-2/index.html
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteCond %{REQUEST_FILENAME}/index.html -f
+RewriteRule ^(.+?)/?$ $1/index.html [L]
+
+# Block direct GET access to mailer.php
+# Only allow POST requests
+<Files "mailer.php">
+    <LimitExcept POST>
+        Order Allow,Deny
+        Deny from all
+    </LimitExcept>
+</Files>
+
+# Block access to vendor folder
+<IfModule mod_rewrite.c>
+    RewriteRule ^vendor/ - [F,L]
+</IfModule>
+
+# Block broken WordPress endpoints from being hit
+RewriteRule ^wp-admin/admin-ajax\.php$ - [R=410,L]
+RewriteRule ^wp-comments-post\.php$ - [R=410,L]
+RewriteRule ^wp-login\.php$ - [R=410,L]
+
+# Custom error pages
+ErrorDocument 404 /404.html
+ErrorDocument 403 /404.html
+
+# Security headers
+<IfModule mod_headers.c>
+    Header always set X-Frame-Options "SAMEORIGIN"
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+    Header always set X-XSS-Protection "1; mode=block"
+</IfModule>
+
+# Cache static assets
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType image/jpg "access plus 1 year"
+    ExpiresByType image/jpeg "access plus 1 year"
+    ExpiresByType image/png "access plus 1 year"
+    ExpiresByType image/webp "access plus 1 year"
+    ExpiresByType text/css "access plus 1 month"
+    ExpiresByType application/javascript "access plus 1 month"
+</IfModule>

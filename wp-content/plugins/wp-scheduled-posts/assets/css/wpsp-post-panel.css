@@ -1,0 +1,146 @@
+/* Modal container */
+.wpsp-post-panel-modal {
+    position: fixed;
+    inset: 0;
+    font-family: "Inter";
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #000000B2;
+    display: none;
+    z-index: 99999;
+}
+
+.wpsp-post-panel-modal.wpsp-post-panel-active {
+    display: flex;
+}
+
+/* Post panel wrapper button  */
+#wpsp-post-panel-wrapper {
+    overflow: hidden;
+    border-radius: 14px 14px 0 0;
+}
+
+#wpsp-post-panel-wrapper #wpsp-post-panel-button,
+#wpsp-post-panel-wrapper-gutenberg #wpsp-post-panel-button-gutenberg {
+    font-size: 12px;
+    line-height: 100%;
+    font-weight: 500;
+    padding: 10px 16px;
+    border-radius: 6px;
+    background: #6c62ff;
+    cursor: pointer;
+    color: #fff;
+    border: none;
+    font-family: "Inter", sans-serif;
+    transition: background 0.2s ease;
+}
+
+#wpsp-post-panel-wrapper #wpsp-post-panel-button:hover,
+#wpsp-post-panel-wrapper-gutenberg #wpsp-post-panel-button-gutenberg:hover {
+    background: #5a51e6;
+    color: #fff;
+}
+
+.block-editor__container #wpsp_post_settings .postbox-header {
+    border-top: none;
+}
+
+/* Gutenberg slot wrapper — match metabox layout */
+#wpsp-post-panel-wrapper-gutenberg {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+#wpsp-post-panel-wrapper-gutenberg p {
+    margin: 0;
+    font-size: 12px;
+    line-height: 1.5;
+    color: #1e1e1e;
+}
+
+#wpsp-post-panel-wrapper-gutenberg #wpsp-post-panel-button-gutenberg {
+    width: 100%;
+    padding: 12px 16px;
+    font-size: 13px;
+    box-shadow: none;
+    text-align: center;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+}
+
+#wpsp-post-panel-wrapper-gutenberg #wpsp-post-panel-button-gutenberg:focus {
+    outline: 2px solid #6c62ff;
+    outline-offset: 2px;
+}
+
+/* Content */
+.wpsp-post-panel-content {
+    position: relative;
+    max-width: 922px !important;
+    background: #f9f8fd !important;
+    width: 80%;
+    max-height: 90vh;
+    height: auto;
+    box-sizing: border-box;
+    align-items: center;
+    border-radius: 14px;
+}
+
+.wpsp-post-panel-modal-content-wrap {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-height: calc(100vh - 255px);
+    overflow: auto;
+}
+
+.wpsp-post-panel-modal-content {
+    display: flex;
+    gap: 10px;
+    flex: 1;
+}
+
+#wpsp-post-panel-modal .wpsp-custom-template-modal {
+    max-width: 100% !important;
+    width: 100% !important;
+}
+
+/* Close button — uses position: fixed to escape `.wpsp-post-panel-content`'s
+   overflow clipping. Exact top/left is set by JS so it tracks the modal
+   content's top-right corner (+16px gap) on resize/scroll. */
+.wpsp-post-panel-close {
+    position: absolute;
+    top: 0;
+    right: -45px;
+    border: none;
+    background: #FFF;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: 0;
+    z-index: 100000;
+    box-shadow: 0 2px 8px rgba(16, 24, 40, 0.08);
+}
+
+#wpsp_post_settings .postbox-header h2.ui-sortable-handle {
+    display: flex;
+    justify-content: start;
+    gap: 10px;
+    padding-left: 10px;
+}
+
+/* Hide the SchedulePress metabox in the block editor.
+   Its DOM stays mounted so the sidebar button can trigger the modal. */
+.block-editor-page #wpsp_post_settings,
+.block-editor-page #wpsp_post_settings-hide {
+    display: none !important;
+}
